@@ -221,7 +221,50 @@
             .event-time { min-width: auto; }
             .overview { grid-template-columns: repeat(2, 1fr); }
         }
-    </style>
+            .toggle-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 2rem;
+        }
+        .toggle-bar label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.2s;
+        }
+        .toggle-bar label.active { color: #0d9488; }
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            background: #cbd5e1;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+        .toggle-switch.active { background: #0d9488; }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .toggle-switch.active::after { transform: translateX(22px); }
+        .mode-thu-sun .event:not(.top-course) { display: none; }
+        .bonus-day { display: none; }
+        .mode-wed-sun .bonus-day { display: block; }
+</style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
@@ -231,6 +274,11 @@
         <p class="subtitle">Thu-Sun &bull; ~11-12 rounds &bull; Highest-rated first each day</p>
     </div>
 
+        <div class="toggle-bar">
+            <label class="active" id="lblWed">Wed-Sun</label>
+            <div class="toggle-switch" onclick="toggleSchedule()"></div>
+            <label id="lblThu">Thu-Sun</label>
+        </div>
     <div class="overview">
         <div class="overview-item">
             <div class="label">Day 1 (Thu)</div>
@@ -539,6 +587,105 @@
             };
             info.addTo(map);
         });
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var mode = 'wed-sun';
+
+        document.querySelectorAll('.event').forEach(function(ev) {
+            var titleEl = ev.querySelector('.event-title');
+            var detailEl = ev.querySelector('.event-detail');
+            if (!titleEl || !detailEl) return;
+            if (!titleEl.querySelector('.round-counter')) return;
+            var m = detailEl.textContent.match(/Rating:\s*([\d.]+)/);
+            var rating = m ? parseFloat(m[1]) : 0;
+            ev.dataset.rating = rating;
+            if (rating >= 4.0) ev.classList.add('top-course');
+        });
+
+        var body = document.body;
+        var subtitle = document.querySelector('.subtitle');
+        var timeline = document.querySelector('.timeline');
+
+        function countRounds(parent) {
+            var n = 0;
+            parent.querySelectorAll('.event').forEach(function(ev) {
+                if (ev.querySelector('.round-counter') && ev.style.display !== 'none') n++;
+            });
+            return n;
+        }
+
+        function updateView(m) {
+            var isThuSun = m === 'thu-sun';
+            body.classList.toggle('mode-thu-sun', isThuSun);
+            body.classList.toggle('mode-wed-sun', !isThuSun);
+
+            var labels = ['Wed','Thu','Fri','Sat'];
+            var dayNames = ['Wednesday','Thursday','Friday','Saturday'];
+            if (isThuSun) { labels = ['Thu','Fri','Sat']; dayNames = ['Thursday','Friday','Saturday']; }
+
+            var days = document.querySelectorAll('.day:not(.bonus-day)');
+            var items = document.querySelectorAll('.overview-item');
+
+            days.forEach(function(day, i) {
+                if (i >= labels.length) return;
+                var h2 = day.querySelector('.day-header h2');
+                if (h2) {
+                    var suffix = i === 0 ? ' Arrival' : '';
+                    h2.textContent = dayNames[i] + ' \u2014 Day ' + (i + 1) + ' (' + labels[i] + suffix + ')';
+                }
+                if (items[i]) {
+                    var lbl = items[i].querySelector('.label');
+                    if (lbl) lbl.textContent = 'Day ' + (i + 1) + ' (' + labels[i] + ')';
+                    var val = items[i].querySelector('.value');
+                    if (val) val.textContent = countRounds(day) + ' rounds';
+                }
+            });
+
+            var totalDays = isThuSun ? 3 : 4;
+            if (items[totalDays]) {
+                var dl = items[totalDays].querySelector('.label');
+                if (dl) dl.textContent = 'Day ' + (totalDays + 1) + ' (Sun)';
+                var dv = items[totalDays].querySelector('.value');
+                if (dv) dv.textContent = 'Depart AM';
+            }
+
+            var total = 0;
+            days.forEach(function(d) { total += countRounds(d); });
+            if (subtitle) subtitle.textContent = (isThuSun ? 'Thu' : 'Wed') + '-Sun &bull; ' + total + ' rounds';
+
+            var bonus = document.querySelector('.bonus-day');
+            if (bonus) bonus.style.display = isThuSun ? 'none' : 'block';
+
+            document.getElementById('lblWed').classList.toggle('active', !isThuSun);
+            document.getElementById('lblThu').classList.toggle('active', isThuSun);
+        }
+
+        window.toggleSchedule = function() {
+            mode = mode === 'wed-sun' ? 'thu-sun' : 'wed-sun';
+            document.querySelector('.toggle-switch').classList.toggle('active', mode === 'thu-sun');
+            updateView(mode);
+        };
+
+        (function() {
+            var bonus = document.createElement('div');
+            bonus.className = 'day bonus-day';
+            bonus.innerHTML = [
+                '<div class="day-header">',
+                '<h2>Saturday \u2014 Day 4 (Sat)</h2>',
+                '<div class="day-summary">Bonus rounds &bull; Replay favorites</div>',
+                '</div><div class="day-body">',
+                '<div class="event"><div class="event-time">8:00 AM</div><div class="event-content"><div class="event-title">Replay Round</div><div class="event-detail">Head back to your favorite course for one more round.</div><span class="event-tag tag-discgolf">Bonus</span></div></div>',
+                '<div class="event"><div class="event-time">12:00 PM</div><div class="event-content"><div class="event-title">Final Round</div><div class="event-detail">One last round at another top course.</div><span class="event-tag tag-discgolf">Bonus</span></div></div>',
+                '<div class="event"><div class="event-time">6:00 PM</div><div class="event-content"><div class="event-title">Farewell Dinner</div><div class="event-detail">Celebrate the trip.</div><span class="event-tag tag-brewery">Dinner</span></div></div>',
+                '</div>'
+            ].join('');
+            timeline.appendChild(bonus);
+        })();
+
+        updateView('wed-sun');
+    });
     </script>
 </body>
 </html>
