@@ -287,7 +287,7 @@
                 if (!titleEl.querySelector('.round-counter')) return;
                 var name = titleEl.textContent.replace(titleEl.querySelector('.round-counter').textContent, '').trim();
                 if (name.indexOf('Done') !== -1 || name.indexOf('Arrive') !== -1 || name.indexOf('Drive') !== -1) return;
-                var cleanName = name.replace(/\s*\(Replay\)\s*/i, '').replace(/\s*DGC\s*/i, '').replace(/\s*Disc Golf\s*/i, '').replace(/\s*:\s*/g, ' ').trim();
+                var cleanName = name.replace(/\s*\(Replay\)\s*/i, '').replace(/\s*DGC\s*/i, '').replace(/\s*Disc Golf\s*/i, '').replace(/'/g, '').replace(/\s*:\s*/g, ' ').trim();
                 var lat, lng;
                 if (courseLookup[cleanName]) {
                     lat = courseLookup[cleanName][0];

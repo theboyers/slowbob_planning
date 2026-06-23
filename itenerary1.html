@@ -472,8 +472,8 @@
                 'Milo McIver Riverbend East': [45.300, -122.374],
                 'Milo McIver Riverbend West': [45.300, -122.374],
                 'Dexter State Park': [43.920, -122.813],
-                'Horning Hideout Highlands Course': [45.627, -123.008],
-                'Horning Hideout Canyon Course': [45.627, -123.008],
+                'Hornings Hideout Highlands Course': [45.6725, -123.0118],
+                'Hornings Hideout Canyon Course': [45.6733, -123.0121],
                 'The Roots DGC': [45.549, -122.828],
                 'Columbia Shore DGC': [46.157, -123.850]
             };
@@ -508,7 +508,7 @@
                 if (!titleEl.querySelector('.round-counter')) return;
                 var name = titleEl.textContent.replace(titleEl.querySelector('.round-counter').textContent, '').trim();
                 if (name.indexOf('Done') !== -1 || name.indexOf('Arrive') !== -1 || name.indexOf('Drive') !== -1) return;
-                var cleanName = name.replace(/\s*\(Replay\)\s*/i, '').replace(/\s*DGC\s*/i, '').replace(/\s*Disc Golf\s*/i, '').replace(/\s*:\s*/g, ' ').trim();
+                var cleanName = name.replace(/\s*\(Replay\)\s*/i, '').replace(/\s*DGC\s*/i, '').replace(/\s*Disc Golf\s*/i, '').replace(/'/g, '').replace(/\s*:\s*/g, ' ').trim();
                 var lat, lng;
                 if (courseLookup[cleanName]) {
                     lat = courseLookup[cleanName][0];
