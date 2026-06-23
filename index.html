@@ -313,7 +313,7 @@
 
     <div class="stats-bar">
         <div class="stat">
-            <div class="stat-value">7</div>
+            <div class="stat-value">16</div>
             <div class="stat-label">Candidate Cities</div>
         </div>
         <div class="stat">
@@ -325,7 +325,7 @@
             <div class="stat-label">Rounds/3-4 Days</div>
         </div>
         <div class="stat">
-            <div class="stat-value">4</div>
+            <div class="stat-value">6</div>
             <div class="stat-label">Regions</div>
         </div>
     </div>
@@ -333,6 +333,8 @@
     <div class="filters">
         <button class="filter-btn active" onclick="filterCards('all')">All Regions</button>
         <button class="filter-btn" onclick="filterCards('pnw')">Pacific Northwest</button>
+        <button class="filter-btn" onclick="filterCards('westcoast')">West Coast</button>
+        <button class="filter-btn" onclick="filterCards('mountainwest')">Mountain West</button>
         <button class="filter-btn" onclick="filterCards('midwest')">Midwest Beer Belt</button>
         <button class="filter-btn" onclick="filterCards('kc')">Kansas City</button>
         <button class="filter-btn" onclick="filterCards('greatlakes')">Great Lakes / East</button>
@@ -1134,6 +1136,199 @@
             <div class="card-footer">
                 <span class="match-score">Match: 87%</span>
                 <a href="itenerary12.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="pnw">
+            <div class="card-header">
+                <span class="region-tag">Pacific Northwest</span>
+                <h2>Seattle, Washington</h2>
+                <span class="airport">✈ SEA &rarr; 11 courses within 45 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box"><div class="direction-label">North</div><div class="direction-count">3</div></div>
+                        <div class="direction-box"><div class="direction-label">South</div><div class="direction-count">3</div></div>
+                        <div class="direction-box"><div class="direction-label">East</div><div class="direction-count">3</div></div>
+                        <div class="direction-box"><div class="direction-label">West</div><div class="direction-count">2</div></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item"><span class="course-name">Lakewood DGC</span><span><span class="course-rating">4.5</span><span class="course-direction">S 30min</span></span></div>
+                        <div class="course-item"><span class="course-name">Gaffney's Grove</span><span><span class="course-rating">4.3</span><span class="course-direction">N 40min</span></span></div>
+                        <div class="course-item"><span class="course-name">Terrace Creek</span><span><span class="course-rating">4.3</span><span class="course-direction">NE 30min</span></span></div>
+                        <div class="course-item"><span class="course-name">White River DGC</span><span><span class="course-rating">4.3</span><span class="course-direction">SE 45min</span></span></div>
+                        <div class="course-item"><span class="course-name">Seatac DGC</span><span><span class="course-rating">4.2</span><span class="course-direction">S 15min</span></span></div>
+                        <div class="course-item"><span class="course-name">Lake Fenwick</span><span><span class="course-rating">4.1</span><span class="course-direction">S 25min</span></span></div>
+                        <div class="course-item"><span class="course-name">Riverside Park</span><span><span class="course-rating">4.1</span><span class="course-direction">N 35min</span></span></div>
+                        <div class="course-item"><span class="course-name">Howling Coyote</span><span><span class="course-rating">4.1</span><span class="course-direction">E 35min</span></span></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (South/SEA):</strong> Seatac (15 min) + Lake Fenwick + White River = 3 rounds</li>
+                        <li><strong>Day 2 (S):</strong> Lakewood + seatac replay + Riverside Park = 3-4 rounds</li>
+                        <li><strong>Day 3 (NE/N):</strong> Terrace Creek + Gaffney's Grove + Howling Coyote = 3 rounds</li>
+                        <li><strong>Day 4 (Mixed):</strong> Lakewood replay + Howling Coyote replay + Mineral Springs + Fort Steilacoom = 4 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 90%"></div></div>
+                    <span class="score-value">90/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 90%</span>
+                <a href="itenerary13.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="westcoast">
+            <div class="card-header">
+                <span class="region-tag">West Coast</span>
+                <h2>Sacramento, California</h2>
+                <span class="airport">✈ SMF &rarr; 8 courses within 45 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box"><div class="direction-label">North</div><div class="direction-count">2</div></div>
+                        <div class="direction-box"><div class="direction-label">South</div><div class="direction-count">3</div></div>
+                        <div class="direction-box"><div class="direction-label">East</div><div class="direction-count">2</div></div>
+                        <div class="direction-box"><div class="direction-label">West</div><div class="direction-count">2</div></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item"><span class="course-name">Shady Oaks</span><span><span class="course-rating">4.5</span><span class="course-direction">SW 20min</span></span></div>
+                        <div class="course-item"><span class="course-name">New Hogan Lake</span><span><span class="course-rating">4.2</span><span class="course-direction">SE 50min</span></span></div>
+                        <div class="course-item"><span class="course-name">Miller Park</span><span><span class="course-rating">4.2</span><span class="course-direction">N 15min</span></span></div>
+                        <div class="course-item"><span class="course-name">Cameron Park</span><span><span class="course-rating">4.1</span><span class="course-direction">E 35min</span></span></div>
+                        <div class="course-item"><span class="course-name">Lodi Lake</span><span><span class="course-rating">4.1</span><span class="course-direction">S 30min</span></span></div>
+                        <div class="course-item"><span class="course-name">Auburn Regional</span><span><span class="course-rating">4.1</span><span class="course-direction">NE 45min</span></span></div>
+                        <div class="course-item"><span class="course-name">Reichmuth Park</span><span><span class="course-rating">4.0</span><span class="course-direction">S 15min</span></span></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (South/SMF):</strong> Reichmuth (15 min) + Shady Oaks + Lodi Lake = 3 rounds</li>
+                        <li><strong>Day 2 (E/NE):</strong> Cameron Park + Auburn Regional + New Hogan Lake = 3 rounds</li>
+                        <li><strong>Day 3 (N):</strong> Miller Park + Auburn Regional replay + Grass Valley area = 3-4 rounds</li>
+                        <li><strong>Day 4 (Mixed):</strong> Shady Oaks replay + Miller Park replay + Rocklin + Orangevale = 4 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 85%"></div></div>
+                    <span class="score-value">85/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 85%</span>
+                <a href="itenerary14.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="mountainwest">
+            <div class="card-header">
+                <span class="region-tag">Mountain West</span>
+                <h2>Salt Lake City, Utah</h2>
+                <span class="airport">✈ SLC &rarr; 9 courses within 45 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box"><div class="direction-label">North</div><div class="direction-count">2</div></div>
+                        <div class="direction-box"><div class="direction-label">South</div><div class="direction-count">3</div></div>
+                        <div class="direction-box"><div class="direction-label">East</div><div class="direction-count">2</div></div>
+                        <div class="direction-box"><div class="direction-label">West</div><div class="direction-count">3</div></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item"><span class="course-name">Creekside Park</span><span><span class="course-rating">4.3</span><span class="course-direction">S 25min</span></span></div>
+                        <div class="course-item"><span class="course-name">Art Dye Park</span><span><span class="course-rating">4.2</span><span class="course-direction">E 25min</span></span></div>
+                        <div class="course-item"><span class="course-name">Roots DGC</span><span><span class="course-rating">4.2</span><span class="course-direction">S 30min</span></span></div>
+                        <div class="course-item"><span class="course-name">Jolley's Ranch</span><span><span class="course-rating">4.2</span><span class="course-direction">S 30min</span></span></div>
+                        <div class="course-item"><span class="course-name">Mountain Dell</span><span><span class="course-rating">4.1</span><span class="course-direction">E 20min</span></span></div>
+                        <div class="course-item"><span class="course-name">Stansbury Park</span><span><span class="course-rating">4.0</span><span class="course-direction">W 30min</span></span></div>
+                        <div class="course-item"><span class="course-name">Riverbend DGC</span><span><span class="course-rating">4.0</span><span class="course-direction">NW 25min</span></span></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (South/SLC):</strong> Creekside Park (25 min) + Roots DGC + Jolley's Ranch = 3 rounds</li>
+                        <li><strong>Day 2 (E):</strong> Mountain Dell + Art Dye + East Canyon area = 3 rounds</li>
+                        <li><strong>Day 3 (W/NW):</strong> Stansbury Park + Riverbend + Salt Lake City metro = 3-4 rounds</li>
+                        <li><strong>Day 4 (Mixed):</strong> Creekside replay + Art Dye replay + Valley Regional + South Valley = 4 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 82%"></div></div>
+                    <span class="score-value">82/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 82%</span>
+                <a href="itenerary15.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="greatlakes">
+            <div class="card-header">
+                <span class="region-tag">Great Lakes / East</span>
+                <h2>Boston, Massachusetts</h2>
+                <span class="airport">✈ BOS &rarr; 8 courses within 60 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box"><div class="direction-label">North</div><div class="direction-count">2</div></div>
+                        <div class="direction-box"><div class="direction-label">South</div><div class="direction-count">3</div></div>
+                        <div class="direction-box"><div class="direction-label">East</div><div class="direction-count">2</div></div>
+                        <div class="direction-box"><div class="direction-label">West</div><div class="direction-count">2</div></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item"><span class="course-name">Maple Hill</span><span><span class="course-rating">4.7</span><span class="course-direction">W 60min</span></span></div>
+                        <div class="course-item"><span class="course-name">Borderland State Park</span><span><span class="course-rating">4.3</span><span class="course-direction">S 30min</span></span></div>
+                        <div class="course-item"><span class="course-name">Tully Lake</span><span><span class="course-rating">4.3</span><span class="course-direction">W 75min</span></span></div>
+                        <div class="course-item"><span class="course-name">Pyramids DGC</span><span><span class="course-rating">4.2</span><span class="course-direction">W 55min</span></span></div>
+                        <div class="course-item"><span class="course-name">Amesbury DGC</span><span><span class="course-rating">4.1</span><span class="course-direction">N 45min</span></span></div>
+                        <div class="course-item"><span class="course-name">Devens DGC</span><span><span class="course-rating">4.1</span><span class="course-direction">W 40min</span></span></div>
+                        <div class="course-item"><span class="course-name">Crane Hill</span><span><span class="course-rating">4.0</span><span class="course-direction">SW 35min</span></span></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (S/SW):</strong> Borderland (30 min) + Crane Hill + Dacey Field = 3 rounds</li>
+                        <li><strong>Day 2 (W):</strong> Maple Hill + Pyramids + Devens = 3 rounds (world-class day)</li>
+                        <li><strong>Day 3 (N/extended):</strong> Amesbury + Tully Lake + North Worcester area = 3-4 rounds</li>
+                        <li><strong>Day 4 (Mixed):</strong> Maple Hill replay + Borderland replay + Newton Hill + Buffumville = 4 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 85%"></div></div>
+                    <span class="score-value">85/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 85%</span>
+                <a href="itenerary16.html" class="itinerary-link">View Itinerary &rarr;</a>
             </div>
         </div>
 
