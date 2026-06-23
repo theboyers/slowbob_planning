@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itinerary 8: Denver, Colorado</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f1923; color: #e0e0e0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1a2a3a 0%, #0d3b2e 100%); padding: 2rem; text-align: center; border-bottom: 3px solid #2ecc71; }
+        .header a { color: #2ecc71; text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 1rem; }
+        .header a:hover { text-decoration: underline; }
+        .header h1 { font-size: 2.5rem; color: #2ecc71; margin-bottom: 0.5rem; }
+        .header .subtitle { color: #8899aa; font-size: 1.1rem; }
+        .overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; padding: 1.5rem 2rem; background: #162230; border-bottom: 1px solid #1e3348; }
+        .overview-item { text-align: center; padding: 1rem; background: #1a2a3a; border-radius: 8px; }
+        .overview-item .label { font-size: 0.75rem; text-transform: uppercase; color: #8899aa; margin-bottom: 0.3rem; }
+        .overview-item .value { font-size: 1.1rem; font-weight: bold; color: #2ecc71; }
+        .timeline { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .day { margin-bottom: 3rem; }
+        .day-header { background: linear-gradient(135deg, #1e3348 0%, #0d3b2e 100%); padding: 1.2rem 1.5rem; border-radius: 12px 12px 0 0; border: 1px solid #1e3348; border-bottom: 2px solid #2ecc71; }
+        .day-header h2 { color: #2ecc71; font-size: 1.4rem; }
+        .day-header .day-summary { color: #8899aa; font-size: 0.9rem; margin-top: 0.3rem; }
+        .day-body { background: #1a2a3a; border: 1px solid #1e3348; border-top: none; border-radius: 0 0 12px 12px; padding: 1.5rem; }
+        .event { display: flex; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid #1e3348; }
+        .event:last-child { border-bottom: none; }
+        .event-time { min-width: 70px; font-weight: bold; color: #2ecc71; font-size: 0.9rem; }
+        .event-content { flex: 1; }
+        .event-title { font-weight: bold; color: #fff; margin-bottom: 0.2rem; }
+        .event-detail { color: #8899aa; font-size: 0.85rem; line-height: 1.4; }
+        .event-tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: bold; margin-right: 0.3rem; margin-top: 0.3rem; }
+        .tag-discgolf { background: #0d3b2e; color: #2ecc71; }
+        .tag-brewery { background: #3b2e0d; color: #e8a826; }
+        .tag-travel { background: #0d2e3b; color: #7cc8e8; }
+        .round-counter { background: #2ecc71; color: #0f1923; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; margin-right: 0.5rem; }
+        .tips-section { background: #162230; border-radius: 12px; padding: 1.5rem; margin: 2rem auto; max-width: 900px; border: 1px solid #1e3348; }
+        .tips-section h3 { color: #2ecc71; margin-bottom: 1rem; }
+        .tips-section ul { list-style: none; padding: 0; }
+        .tips-section li { padding: 0.4rem 0; padding-left: 1.5rem; position: relative; color: #b0c0d0; font-size: 0.9rem; }
+        .tips-section li::before { content: "💡"; position: absolute; left: 0; }
+        .nav-footer { text-align: center; padding: 2rem; background: #162230; border-top: 1px solid #1e3348; }
+        .nav-footer a { color: #2ecc71; text-decoration: none; padding: 0.6rem 1.5rem; border: 1px solid #2ecc71; border-radius: 8px; margin: 0 0.5rem; transition: all 0.2s; display: inline-block; }
+        .nav-footer a:hover { background: #2ecc71; color: #0f1923; }
+        @media (max-width: 768px) { .timeline { padding: 1rem; } .event { flex-direction: column; gap: 0.3rem; } .event-time { min-width: auto; } .overview { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html">&larr; Back to Dashboard</a>
+        <h1>🥏 Denver, Colorado</h1>
+        <p class="subtitle">Wed-Sun &bull; 14 rounds &bull; Highest-rated first each day</p>
+    </div>
+    <div class="overview">
+        <div class="overview-item"><div class="label">Day 1 (Wed)</div><div class="value">2 rounds</div></div>
+        <div class="overview-item"><div class="label">Day 2 (Thu)</div><div class="value">4 rounds</div></div>
+        <div class="overview-item"><div class="label">Day 3 (Fri)</div><div class="value">4 rounds</div></div>
+        <div class="overview-item"><div class="label">Day 4 (Sat)</div><div class="value">4 rounds</div></div>
+        <div class="overview-item"><div class="label">Day 5 (Sun)</div><div class="value">Depart AM</div></div>
+    </div>
+    <div class="timeline">
+        <div class="day">
+            <div class="day-header">
+                <h2>Wednesday — East/South Side (Arrival)</h2>
+                <div class="day-summary">2 rounds &bull; Lowry (15 min from DIA), Fehringer &bull; Dinner at Great Divide</div>
+            </div>
+            <div class="day-body">
+                <div class="event">
+                    <div class="event-time">12:00 PM</div>
+                    <div class="event-content">
+                        <div class="event-title">Arrive at DIA</div>
+                        <div class="event-detail">Head south — courses are close to the airport.</div>
+                        <span class="event-tag tag-travel">Travel</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">12:30 PM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">1</span>Lowry Disc Golf Course</div>
+                        <div class="event-detail">15 min from DIA &bull; Rating: 4.0 &bull; Aurora. Solid park course, great warmup. Est. round: 1.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 1</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">2:15 PM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">2</span>Fehringer Ranch</div>
+                        <div class="event-detail">30 min drive &bull; Rating: 4.1 &bull; Southeast Denver. Open air, mountain backdrop, solid layout. Est. round: 1.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 2</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">4:00 PM</div>
+                    <div class="event-content"><div class="event-title">Done for Day 1</div><div class="event-detail">2 rounds complete.</div><span class="event-tag tag-travel">Travel</span></div>
+                </div>
+                <div class="event">
+                    <div class="event-time">6:00 PM</div>
+                    <div class="event-content">
+                        <div class="event-title">Dinner: Great Divide Brewing</div>
+                        <div class="event-detail">Ballpark neighborhood. Iconic Colorado brewery. Yeti Imperial Stout, Titan IPA.</div>
+                        <span class="event-tag tag-brewery">Brewery</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="day">
+            <div class="day-header">
+                <h2>Thursday — Mountain Courses (West)</h2>
+                <div class="day-summary">4 rounds &bull; Beaver Ranch (4.7), Bucksnort (4.6), Ghost Town (4.5), Bailey (4.3) &bull; Dinner at Comrade Brewing</div>
+            </div>
+            <div class="day-body">
+                <div class="event">
+                    <div class="event-time">6:30 AM</div>
+                    <div class="event-content">
+                        <div class="event-title">Drive to Conifer</div>
+                        <div class="event-detail">45 min west into the Rocky Mountains.</div>
+                        <span class="event-tag tag-travel">Travel</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">7:30 AM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">3</span>Beaver Ranch DGC</div>
+                        <div class="event-detail">Rating: 4.7 &bull; Conifer, CO. World-class mountain course. Steep elevation changes, incredible views, pine forest. Est. round: 2.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 3</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">10:15 AM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">4</span>Bucksnort DGC</div>
+                        <div class="event-detail">20 min further west &bull; Rating: 4.6 &bull; Pine, CO. Iconic mountain course. Tight fairways through the Rockies. Est. round: 2 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 4</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">12:30 PM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">5</span>Ghost Town DGC</div>
+                        <div class="event-detail">20 min back toward Denver &bull; Rating: 4.5 &bull; Evergreen, CO. Abandoned mining town converted to disc golf. Unreal setting. Est. round: 2 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 5</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">2:45 PM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">6</span>Bailey DGC</div>
+                        <div class="event-detail">30 min drive &bull; Rating: 4.3 &bull; Bailey, CO. Mountain course along the river. Est. round: 1.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 6</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">4:30 PM</div>
+                    <div class="event-content"><div class="event-title">Done for Day 2</div><div class="event-detail">4 rounds complete. Drive back to Denver (1 hr).</div><span class="event-tag tag-travel">Travel</span></div>
+                </div>
+                <div class="event">
+                    <div class="event-time">6:30 PM</div>
+                    <div class="event-content">
+                        <div class="event-title">Dinner: Comrade Brewing</div>
+                        <div class="event-detail">Denver. Award-winning IPAs. Superpower IPA is a must.</div>
+                        <span class="event-tag tag-brewery">Brewery</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="day">
+            <div class="day-header">
+                <h2>Friday — Boulder / North</h2>
+                <div class="day-summary">4 rounds &bull; Valmont (4.3), Pleasant View (4.1), Harlow (4.0), Westminster &bull; Dinner at Odell</div>
+            </div>
+            <div class="day-body">
+                <div class="event">
+                    <div class="event-time">7:00 AM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">7</span>Valmont DGC</div>
+                        <div class="event-detail">45 min drive north &bull; Rating: 4.3 &bull; Boulder. Top Colorado course, well-maintained, beautiful views of the Flatirons. Est. round: 1.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 7</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">9:00 AM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">8</span>Pleasant View DGC</div>
+                        <div class="event-detail">10 min drive &bull; Rating: 4.1 &bull; Westminster. Open-style course with mountain views. Est. round: 1.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 8</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">10:45 AM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">9</span>Harlow's DGC</div>
+                        <div class="event-detail">15 min drive &bull; Rating: 4.0 &bull; Longmont. Solid course in Boulder County. Est. round: 1.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 9</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">12:30 PM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">10</span>Westminster City Park</div>
+                        <div class="event-detail">20 min drive &bull; Rating: 4.0 &bull; Classic Colorado park course. Est. round: 1.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 10</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">2:15 PM</div>
+                    <div class="event-content"><div class="event-title">Done for Day 3</div><div class="event-detail">4 rounds complete.</div><span class="event-tag tag-travel">Travel</span></div>
+                </div>
+                <div class="event">
+                    <div class="event-time">6:00 PM</div>
+                    <div class="event-content">
+                        <div class="event-title">Dinner: Odell Brewing</div>
+                        <div class="event-detail">Five Points Denver. Fort Collins transplant. Myrcenary, IPA, great food.</div>
+                        <span class="event-tag tag-brewery">Brewery</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="day">
+            <div class="day-header">
+                <h2>Saturday — South Denver / Final</h2>
+                <div class="day-summary">4 rounds &bull; Fehringer replay, Paco Sanchez (4.0), Expo Park, Village Greens &bull; Dinner at Crooked Stave</div>
+            </div>
+            <div class="day-body">
+                <div class="event">
+                    <div class="event-time">7:00 AM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">11</span>Paco Sanchez Park</div>
+                        <div class="event-detail">15 min drive &bull; Rating: 4.0 &bull; Denver. Unique urban course with colorful baskets. Est. round: 1.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 11</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">9:00 AM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">12</span>Expo Park</div>
+                        <div class="event-detail">15 min drive &bull; Rating: 4.0 &bull; Aurora. Open park course. Est. round: 1.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 12</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">10:45 AM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">13</span>Village Greens DGC</div>
+                        <div class="event-detail">15 min drive &bull; Rating: 4.0 &bull; Southeast Denver. Challenging wooded/water mix. Est. round: 1.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 13</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">12:30 PM</div>
+                    <div class="event-content">
+                        <div class="event-title"><span class="round-counter">14</span>Fehringer Ranch (Replay)</div>
+                        <div class="event-detail">15 min drive &bull; Rating: 4.1 &bull; Close the trip at one of Denver's best. Est. round: 1.5 hrs.</div>
+                        <span class="event-tag tag-discgolf">Round 14</span>
+                    </div>
+                </div>
+                <div class="event">
+                    <div class="event-time">2:15 PM</div>
+                    <div class="event-content"><div class="event-title">Done for Day 4</div><div class="event-detail">4 rounds complete.</div><span class="event-tag tag-travel">Travel</span></div>
+                </div>
+                <div class="event">
+                    <div class="event-time">6:00 PM</div>
+                    <div class="event-content">
+                        <div class="event-title">Dinner: Crooked Stave</div>
+                        <div class="event-detail">Denver. Legendary sour and wild ale brewery in RiNo.</div>
+                        <span class="event-tag tag-brewery">Brewery</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tips-section">
+        <h3>💡 Denver Trip Tips</h3>
+        <ul>
+            <li>Best time: June-September. Mountain courses are only in full swing during summer.</li>
+            <li>Beaver Ranch + Bucksnort + Ghost Town are world-class — make Day 2 the mountain day.</li>
+            <li>Altitude adjustment: Denver is 5,280 ft. Mountain courses are 8,000+ ft. Drink water.</li>
+            <li>DIA is massive — factor in 15 min from gate to rental car.</li>
+            <li>Expect afternoon thunderstorms in summer — play early.</li>
+            <li>Download UDisc for course maps. Mountain courses are complex.</li>
+        </ul>
+    </div>
+    <div class="nav-footer">
+        <a href="index.html">&larr; Back to Dashboard</a>
+    </div>
+</body>
+</html>

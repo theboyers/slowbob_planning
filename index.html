@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slobob Disc Golf Trip Planner</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0f1923;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a2a3a 0%, #0d3b2e 100%);
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid #2ecc71;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2ecc71;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            color: #8899aa;
+            font-size: 1.1rem;
+        }
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            flex-wrap: wrap;
+            background: #162230;
+        }
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            border: 1px solid #2ecc71;
+            background: transparent;
+            color: #2ecc71;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: #2ecc71;
+            color: #0f1923;
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            padding: 1.5rem;
+            background: #162230;
+            border-bottom: 1px solid #1e3348;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: #8899aa;
+            text-transform: uppercase;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #1a2a3a;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #1e3348;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #2ecc71;
+        }
+        .card-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #1e3348 0%, #0d3b2e 100%);
+            position: relative;
+        }
+        .card-header h2 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+        .card-header .airport {
+            color: #2ecc71;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .card-header .region-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #2ecc71;
+            color: #0f1923;
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .card-body {
+            padding: 1.5rem;
+        }
+        .card-section {
+            margin-bottom: 1.2rem;
+        }
+        .card-section:last-child {
+            margin-bottom: 0;
+        }
+        .card-section h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #2ecc71;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        .card-section p, .card-section li {
+            font-size: 0.9rem;
+            color: #b0c0d0;
+            line-height: 1.5;
+        }
+        .card-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .card-section li {
+            padding: 0.2rem 0;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+        .card-section li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #2ecc71;
+        }
+        .course-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+        }
+        .course-item {
+            background: #162230;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .course-name {
+            font-size: 0.85rem;
+            color: #e0e0e0;
+        }
+        .course-rating {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+        .course-direction {
+            font-size: 0.7rem;
+            color: #8899aa;
+            margin-left: 0.5rem;
+        }
+        .direction-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            text-align: center;
+        }
+        .direction-box {
+            background: #162230;
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+        .direction-label {
+            font-size: 0.7rem;
+            color: #8899aa;
+            text-transform: uppercase;
+        }
+        .direction-count {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+        .score-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .score-fill {
+            height: 8px;
+            border-radius: 4px;
+            background: #2ecc71;
+            transition: width 0.5s;
+        }
+        .score-bg {
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: #1e3348;
+        }
+        .score-value {
+            font-weight: bold;
+            color: #2ecc71;
+            min-width: 3rem;
+            text-align: right;
+        }
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+        .badge {
+            background: #1e3348;
+            color: #8899aa;
+            padding: 0.2rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+        }
+        .badge.highlight {
+            background: #0d3b2e;
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+        .card-footer {
+            padding: 1rem 1.5rem;
+            background: #162230;
+            border-top: 1px solid #1e3348;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-footer .match-score {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+        .card-footer .itinerary-link {
+            color: #2ecc71;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid #2ecc71;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .card-footer .itinerary-link:hover {
+            background: #2ecc71;
+            color: #0f1923;
+        }
+        .card-footer .itinerary-link.disabled {
+            color: #556677;
+            border-color: #556677;
+            cursor: default;
+        }
+        .visited-section {
+            padding: 2rem;
+            text-align: center;
+            background: #162230;
+            border-top: 1px solid #1e3348;
+        }
+        .visited-section h3 {
+            color: #8899aa;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        .visited-cities {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .visited-city {
+            background: #1a2a3a;
+            color: #556677;
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            text-decoration: line-through;
+        }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; padding: 1rem; }
+            .header h1 { font-size: 1.8rem; }
+            .stats-bar { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🥏 Slobob Disc Golf Trip Planner</h1>
+        <p>4 players &bull; 4 days &bull; 10-15 rounds &bull; Maximum disc golf density</p>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-value">7</div>
+            <div class="stat-label">Candidate Cities</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">9</div>
+            <div class="stat-label">Cities Visited</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">10-15</div>
+            <div class="stat-label">Rounds/3-4 Days</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">4</div>
+            <div class="stat-label">Regions</div>
+        </div>
+    </div>
+
+    <div class="filters">
+        <button class="filter-btn active" onclick="filterCards('all')">All Regions</button>
+        <button class="filter-btn" onclick="filterCards('pnw')">Pacific Northwest</button>
+        <button class="filter-btn" onclick="filterCards('midwest')">Midwest Beer Belt</button>
+        <button class="filter-btn" onclick="filterCards('kc')">Kansas City</button>
+        <button class="filter-btn" onclick="filterCards('greatlakes')">Great Lakes / East</button>
+    </div>
+
+    <div class="grid" id="cardGrid">
+
+        <div class="card" data-region="pnw">
+            <div class="card-header">
+                <span class="region-tag">Pacific Northwest</span>
+                <h2>Portland, Oregon</h2>
+                <span class="airport">✈ PDX &rarr; 12 courses within 45 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box">
+                            <div class="direction-label">North</div>
+                            <div class="direction-count">3</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">South</div>
+                            <div class="direction-count">4</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">East</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">West</div>
+                            <div class="direction-count">3</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <span class="course-name">Milo McIver: Riverbend East</span>
+                            <span><span class="course-rating">4.7</span><span class="course-direction">SE 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Milo McIver: Riverbend West</span>
+                            <span><span class="course-rating">4.6</span><span class="course-direction">SE 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Pier Park</span>
+                            <span><span class="course-rating">4.5</span><span class="course-direction">N 15min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Blue Lake</span>
+                            <span><span class="course-rating">4.4</span><span class="course-direction">E 10min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Horning's Hideout: Highlands</span>
+                            <span><span class="course-rating">4.4</span><span class="course-direction">NW 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Horning's Hideout: Canyon</span>
+                            <span><span class="course-rating">4.3</span><span class="course-direction">NW 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">The Roots DGC</span>
+                            <span><span class="course-rating">4.3</span><span class="course-direction">NW 40min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Dexter State Park</span>
+                            <span><span class="course-rating">4.2</span><span class="course-direction">S 50min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Mt. Tabor Park</span>
+                            <span><span class="course-rating">4.1</span><span class="course-direction">SE 10min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Sellwood Park</span>
+                            <span><span class="course-rating">4.0</span><span class="course-direction">SE 15min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Woodstock Park</span>
+                            <span><span class="course-rating">4.0</span><span class="course-direction">SE 15min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Fernhill Park</span>
+                            <span><span class="course-rating">4.0</span><span class="course-direction">NE 15min</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (East):</strong> Blue Lake + Mt. Tabor + Sellwood + Woodstock = 4 rounds</li>
+                        <li><strong>Day 2 (NW):</strong> Horning's Hideout (2) + The Roots + Pier Park = 4 rounds</li>
+                        <li><strong>Day 3 (SE):</strong> Milo McIver (2) + Dexter State Park = 3 rounds</li>
+                        <li><strong>Day 4 (NE):</strong> Fernhill + return courses = 3 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 96%"></div></div>
+                    <span class="score-value">96/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 96%</span>
+                <a href="itenerary1.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="kc">
+            <div class="card-header">
+                <span class="region-tag">Kansas City</span>
+                <h2>Kansas City, MO/KS</h2>
+                <span class="airport">✈ MCI &rarr; 8 courses within 45 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box">
+                            <div class="direction-label">North</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">South</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">East</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">West</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <span class="course-name">Bad Rock Creek & BRC Championship</span>
+                            <span><span class="course-rating">4.4</span><span class="course-direction">N 30min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Water Works Park</span>
+                            <span><span class="course-rating">4.3</span><span class="course-direction">E 25min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Rosedale Park: Up Top</span>
+                            <span><span class="course-rating">4.2</span><span class="course-direction">W 20min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Rosedale Park: Down Under</span>
+                            <span><span class="course-rating">4.1</span><span class="course-direction">W 20min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Heritage Park</span>
+                            <span><span class="course-rating">4.1</span><span class="course-direction">S 30min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Sunset Ridge</span>
+                            <span><span class="course-rating">4.0</span><span class="course-direction">E 35min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">New Melle Lakes</span>
+                            <span><span class="course-rating">4.0</span><span class="course-direction">W 45min</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (Central/West):</strong> Rosedale (2) + Water Works = 3 rounds</li>
+                        <li><strong>Day 2 (North):</strong> Bad Rock Creek + Liberty area courses = 3-4 rounds</li>
+                        <li><strong>Day 3 (South/East):</strong> Heritage Park + Sunset Ridge + Grain Valley = 3-4 rounds</li>
+                        <li><strong>Day 4 (West):</strong> New Melle Lakes + return courses = 3 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 89%"></div></div>
+                    <span class="score-value">89/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 89%</span>
+                <a href="itenerary2.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="midwest">
+            <div class="card-header">
+                <span class="region-tag">Midwest Beer Belt</span>
+                <h2>Grand Rapids, Michigan</h2>
+                <span class="airport">✈ GRR &rarr; 9 courses within 45 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box">
+                            <div class="direction-label">North</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">South</div>
+                            <div class="direction-count">3</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">East</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">West</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <span class="course-name">Flip City</span>
+                            <span><span class="course-rating">4.6</span><span class="course-direction">SW 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Hammond Hills</span>
+                            <span><span class="course-rating">4.3</span><span class="course-direction">SE 30min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Bald Mountain</span>
+                            <span><span class="course-rating">4.2</span><span class="course-direction">E 60min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Arvesta Sport Complex</span>
+                            <span><span class="course-rating">4.1</span><span class="course-direction">W 50min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Kensington Toboggan</span>
+                            <span><span class="course-rating">4.1</span><span class="course-direction">E 90min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Renegade's Trail</span>
+                            <span><span class="course-rating">4.0</span><span class="course-direction">S 60min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Meyer Broadway: North</span>
+                            <span><span class="course-rating">4.0</span><span class="course-direction">S 75min</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (SW/W):</strong> Flip City + Arvesta + nearby = 3 rounds</li>
+                        <li><strong>Day 2 (SE/E):</strong> Hammond Hills + Bald Mountain + Kensington = 3 rounds</li>
+                        <li><strong>Day 3 (S):</strong> Renegade's Trail + Meyer Broadway + Lansing area = 3-4 rounds</li>
+                        <li><strong>Day 4 (Local):</strong> GR metro courses + return = 3 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 85%"></div></div>
+                    <span class="score-value">85/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 85%</span>
+                <a href="itenerary3.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="greatlakes">
+            <div class="card-header">
+                <span class="region-tag">Great Lakes / East</span>
+                <h2>Burlington, Vermont</h2>
+                <span class="airport">✈ BTV &rarr; 8 courses within 45 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box">
+                            <div class="direction-label">North</div>
+                            <div class="direction-count">3</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">South</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">East</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">West</div>
+                            <div class="direction-count">1</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <span class="course-name">Brewster Ridge</span>
+                            <span><span class="course-rating">4.8</span><span class="course-direction">NE 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Fox Run Meadows</span>
+                            <span><span class="course-rating">4.7</span><span class="course-direction">NE 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Cold Hollow</span>
+                            <span><span class="course-rating">4.5</span><span class="course-direction">N 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Big Rock</span>
+                            <span><span class="course-rating">4.4</span><span class="course-direction">S 30min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Black Falls</span>
+                            <span><span class="course-rating">4.3</span><span class="course-direction">N 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Quarries</span>
+                            <span><span class="course-rating">4.2</span><span class="course-direction">SE 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">The Wildflower</span>
+                            <span><span class="course-rating">4.1</span><span class="course-direction">E 60min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">North Calais</span>
+                            <span><span class="course-rating">4.0</span><span class="course-direction">E 30min</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (NE):</strong> Brewster Ridge + Fox Run Meadows = 2 rounds (world-class)</li>
+                        <li><strong>Day 2 (N):</strong> Cold Hollow + Black Falls + Montgomery area = 3 rounds</li>
+                        <li><strong>Day 3 (S/E):</strong> Big Rock + Quarries + North Calais = 3 rounds</li>
+                        <li><strong>Day 4 (E):</strong> The Wildflower + return courses = 3 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 83%"></div></div>
+                    <span class="score-value">83/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 83%</span>
+                <a href="itenerary4.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="midwest">
+            <div class="card-header">
+                <span class="region-tag">Midwest Beer Belt</span>
+                <h2>Kalamazoo, Michigan</h2>
+                <span class="airport">✈ AZO &rarr; 10 courses within 45 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box">
+                            <div class="direction-label">North</div>
+                            <div class="direction-count">3</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">South</div>
+                            <div class="direction-count">3</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">East</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">West</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <span class="course-name">Flip City</span>
+                            <span><span class="course-rating">4.6</span><span class="course-direction">W 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Renegade's Trail</span>
+                            <span><span class="course-rating">4.4</span><span class="course-direction">E 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Hammond Hills</span>
+                            <span><span class="course-rating">4.3</span><span class="course-direction">N 30min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Meyer Broadway: North</span>
+                            <span><span class="course-rating">4.2</span><span class="course-direction">S 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Bald Mountain</span>
+                            <span><span class="course-rating">4.2</span><span class="course-direction">E 60min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Black Locust: South Green</span>
+                            <span><span class="course-rating">4.1</span><span class="course-direction">E 75min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Arvesta Sport Complex</span>
+                            <span><span class="course-rating">4.1</span><span class="course-direction">NW 50min</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (W/NW):</strong> Flip City + Arvesta + GR area = 3 rounds</li>
+                        <li><strong>Day 2 (E):</strong> Renegade's Trail + Bald Mountain + Black Locust = 3 rounds</li>
+                        <li><strong>Day 3 (S):</strong> Meyer Broadway + Three Rivers area = 3-4 rounds</li>
+                        <li><strong>Day 4 (N):</strong> Hammond Hills + Hastings area + return = 3 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 81%"></div></div>
+                    <span class="score-value">81/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 81%</span>
+                <a href="itenerary5.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="greatlakes">
+            <div class="card-header">
+                <span class="region-tag">Great Lakes / East</span>
+                <h2>Madison, Wisconsin</h2>
+                <span class="airport">✈ MSN &rarr; 6 courses within 45 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box">
+                            <div class="direction-label">North</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">South</div>
+                            <div class="direction-count">1</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">East</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">West</div>
+                            <div class="direction-count">1</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <span class="course-name">Vallarta-Ast DGC at Token Creek</span>
+                            <span><span class="course-rating">4.3</span><span class="course-direction">N 15min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Sandy Knoll</span>
+                            <span><span class="course-rating">4.1</span><span class="course-direction">E 90min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Shorewood</span>
+                            <span><span class="course-rating">4.0</span><span class="course-direction">N 120min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Standing Rocks</span>
+                            <span><span class="course-rating">4.0</span><span class="course-direction">N 120min</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (N):</strong> Token Creek + nearby Madison courses = 3 rounds</li>
+                        <li><strong>Day 2 (E):</strong> Sandy Knoll + West Bend area = 2-3 rounds</li>
+                        <li><strong>Day 3 (N far):</strong> Shorewood + Green Bay area = 2-3 rounds</li>
+                        <li><strong>Day 4 (Local):</strong> Madison metro + return = 3 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 74%"></div></div>
+                    <span class="score-value">74/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 74%</span>
+                <a href="itenerary6.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="greatlakes">
+            <div class="card-header">
+                <span class="region-tag">Great Lakes / East</span>
+                <h2>Cleveland, Ohio</h2>
+                <span class="airport">✈ CLE &rarr; 7 courses within 45 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box">
+                            <div class="direction-label">North</div>
+                            <div class="direction-count">1</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">South</div>
+                            <div class="direction-count">2</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">East</div>
+                            <div class="direction-count">3</div>
+                        </div>
+                        <div class="direction-box">
+                            <div class="direction-label">West</div>
+                            <div class="direction-count">1</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <span class="course-name">Punderson</span>
+                            <span><span class="course-rating">4.4</span><span class="course-direction">E 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Findley State Park</span>
+                            <span><span class="course-rating">4.2</span><span class="course-direction">W 45min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">The Grassman at West Branch</span>
+                            <span><span class="course-rating">4.1</span><span class="course-direction">SE 35min</span></span>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Lobdell Reserve</span>
+                            <span><span class="course-rating">4.0</span><span class="course-direction">E 45min</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (E):</strong> Punderson + Lobdell Reserve + East area = 3 rounds</li>
+                        <li><strong>Day 2 (SE):</strong> The Grassman + Ravenna area = 2-3 rounds</li>
+                        <li><strong>Day 3 (W):</strong> Findley State Park + Wellington area = 2-3 rounds</li>
+                        <li><strong>Day 4 (Local):</strong> Cleveland metro + return = 3 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 71%"></div></div>
+                    <span class="score-value">71/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 71%</span>
+                <a href="itenerary7.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="pnw">
+            <div class="card-header">
+                <span class="region-tag">Colorado Front Range</span>
+                <h2>Denver, Colorado</h2>
+                <span class="airport">✈ DIA &rarr; 10+ courses within 60 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box"><div class="direction-label">Mountain W</div><div class="direction-count">4</div></div>
+                        <div class="direction-box"><div class="direction-label">Boulder N</div><div class="direction-count">4</div></div>
+                        <div class="direction-box"><div class="direction-label">Local/SE</div><div class="direction-count">5</div></div>
+                        <div class="direction-box"><div class="direction-label">South</div><div class="direction-count">3</div></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item"><span class="course-name">Beaver Ranch</span><span><span class="course-rating">4.7</span><span class="course-direction">W 45min</span></span></div>
+                        <div class="course-item"><span class="course-name">Bucksnort</span><span><span class="course-rating">4.6</span><span class="course-direction">W 60min</span></span></div>
+                        <div class="course-item"><span class="course-name">Ghost Town</span><span><span class="course-rating">4.5</span><span class="course-direction">W 50min</span></span></div>
+                        <div class="course-item"><span class="course-name">Valmont Park</span><span><span class="course-rating">4.3</span><span class="course-direction">N 45min</span></span></div>
+                        <div class="course-item"><span class="course-name">Fehringer Ranch</span><span><span class="course-rating">4.1</span><span class="course-direction">SE 30min</span></span></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (SE/Local):</strong> Lowry (15 min from DIA) + Fehringer = 2 rounds</li>
+                        <li><strong>Day 2 (Mountain):</strong> Beaver Ranch + Bucksnort + Ghost Town + Bailey = 4 rounds</li>
+                        <li><strong>Day 3 (Boulder N):</strong> Valmont + Pleasant View + Harlow + Westminster = 4 rounds</li>
+                        <li><strong>Day 4 (Denver):</strong> Paco Sanchez + Fehringer + Village Greens + Expo = 4 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 92%"></div></div>
+                    <span class="score-value">92/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 92%</span>
+                <a href="itenerary8.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="greatlakes">
+            <div class="card-header">
+                <span class="region-tag">Southeast</span>
+                <h2>Atlanta, Georgia</h2>
+                <span class="airport">✈ ATL &rarr; 10+ courses within 30 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box"><div class="direction-label">South</div><div class="direction-count">3</div></div>
+                        <div class="direction-box"><div class="direction-label">North</div><div class="direction-count">3</div></div>
+                        <div class="direction-box"><div class="direction-label">East</div><div class="direction-count">3</div></div>
+                        <div class="direction-box"><div class="direction-label">West</div><div class="direction-count">2</div></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item"><span class="course-name">Alexander Park</span><span><span class="course-rating">4.3</span><span class="course-direction">NW 35min</span></span></div>
+                        <div class="course-item"><span class="course-name">Perkerson Park</span><span><span class="course-rating">4.2</span><span class="course-direction">S 15min</span></span></div>
+                        <div class="course-item"><span class="course-name">Central Park</span><span><span class="course-rating">4.2</span><span class="course-direction">S 15min</span></span></div>
+                        <div class="course-item"><span class="course-name">Little Mulberry</span><span><span class="course-rating">4.1</span><span class="course-direction">NE 45min</span></span></div>
+                        <div class="course-item"><span class="course-name">Redan Park</span><span><span class="course-rating">4.0</span><span class="course-direction">E 20min</span></span></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (South ATL):</strong> Perkerson Park + Central Park = 2 rounds (15 min from ATL)</li>
+                        <li><strong>Day 2 (NE):</strong> Little Mulberry + Redan + Lenora + Boundary Waters = 4 rounds</li>
+                        <li><strong>Day 3 (N):</strong> Alexander Park + Sequoyah + Wills + Etowah = 4 rounds</li>
+                        <li><strong>Day 4 (Replays/S):</strong> Perkerson + Central + Cochran Shoals + E Roswell = 4 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 88%"></div></div>
+                    <span class="score-value">88/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 88%</span>
+                <a href="itenerary9.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="midwest">
+            <div class="card-header">
+                <span class="region-tag">Texas Hill Country</span>
+                <h2>Austin, Texas</h2>
+                <span class="airport">✈ AUS &rarr; 10+ courses within 30 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box"><div class="direction-label">South</div><div class="direction-count">4</div></div>
+                        <div class="direction-box"><div class="direction-label">North</div><div class="direction-count">4</div></div>
+                        <div class="direction-box"><div class="direction-label">East</div><div class="direction-count">2</div></div>
+                        <div class="direction-box"><div class="direction-label">West</div><div class="direction-count">2</div></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item"><span class="course-name">Roy G Guerrero</span><span><span class="course-rating">4.6</span><span class="course-direction">S 15min</span></span></div>
+                        <div class="course-item"><span class="course-name">Circle C</span><span><span class="course-rating">4.4</span><span class="course-direction">S 20min</span></span></div>
+                        <div class="course-item"><span class="course-name">Bible Ridge</span><span><span class="course-rating">4.2</span><span class="course-direction">E 25min</span></span></div>
+                        <div class="course-item"><span class="course-name">Wilco</span><span><span class="course-rating">4.1</span><span class="course-direction">N 40min</span></span></div>
+                        <div class="course-item"><span class="course-name">Davis Spring</span><span><span class="course-rating">4.0</span><span class="course-direction">N 25min</span></span></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (South/AUS):</strong> Roy G (15 min from AUS) + Circle C = 2 rounds</li>
+                        <li><strong>Day 2 (N):</strong> Bible Ridge + Wilco + Davis Spring + Wells Branch = 4 rounds</li>
+                        <li><strong>Day 3 (S Replay):</strong> Roy G replay + Circle C replay + Austin Ridge + MetCenter = 4 rounds</li>
+                        <li><strong>Day 4 (Mixed):</strong> Cat Hollow + Southwest + Zilker + Bible Ridge replay = 4 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 90%"></div></div>
+                    <span class="score-value">90/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 90%</span>
+                <a href="itenerary10.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="greatlakes">
+            <div class="card-header">
+                <span class="region-tag">Southeast</span>
+                <h2>Raleigh/Durham, North Carolina</h2>
+                <span class="airport">✈ RDU &rarr; 8+ courses within 30 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box"><div class="direction-label">South</div><div class="direction-count">4</div></div>
+                        <div class="direction-box"><div class="direction-label">North</div><div class="direction-count">4</div></div>
+                        <div class="direction-box"><div class="direction-label">East</div><div class="direction-count">2</div></div>
+                        <div class="direction-box"><div class="direction-label">West</div><div class="direction-count">2</div></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item"><span class="course-name">Jones Park</span><span><span class="course-rating">4.2</span><span class="course-direction">SW 20min</span></span></div>
+                        <div class="course-item"><span class="course-name">Middle Creek</span><span><span class="course-rating">4.1</span><span class="course-direction">S 25min</span></span></div>
+                        <div class="course-item"><span class="course-name">Cedar Hills</span><span><span class="course-rating">4.0</span><span class="course-direction">SE 15min</span></span></div>
+                        <div class="course-item"><span class="course-name">Buckhorn</span><span><span class="course-rating">4.0</span><span class="course-direction">SW 20min</span></span></div>
+                        <div class="course-item"><span class="course-name">UNC DGC</span><span><span class="course-rating">4.0</span><span class="course-direction">NW 30min</span></span></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (South/RDU):</strong> Cedar Hills (15 min from RDU) + Middle Creek = 2 rounds</li>
+                        <li><strong>Day 2 (S/SW Apex):</strong> Jones Park + Middle Creek replay + Buckhorn + Lake Johnson = 4 rounds</li>
+                        <li><strong>Day 3 (Durham/CH):</strong> UNC + Cornwallis + Valley Springs + Eno River = 4 rounds</li>
+                        <li><strong>Day 4 (East/Final):</strong> Jones Park replay + Lake Benson + Clayton + Zebulon = 4 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 80%"></div></div>
+                    <span class="score-value">80/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 80%</span>
+                <a href="itenerary11.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card" data-region="kc">
+            <div class="card-header">
+                <span class="region-tag">Texas</span>
+                <h2>Dallas/Fort Worth, Texas</h2>
+                <span class="airport">✈ DFW &rarr; 10+ courses within 30 min</span>
+            </div>
+            <div class="card-body">
+                <div class="card-section">
+                    <h3>Course Density by Direction</h3>
+                    <div class="direction-grid">
+                        <div class="direction-box"><div class="direction-label">FW West</div><div class="direction-count">4</div></div>
+                        <div class="direction-box"><div class="direction-label">Dallas E</div><div class="direction-count">4</div></div>
+                        <div class="direction-box"><div class="direction-label">Mid-Cities</div><div class="direction-count">3</div></div>
+                        <div class="direction-box"><div class="direction-label">North</div><div class="direction-count">2</div></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Top Courses (4.0+ UDisc)</h3>
+                    <div class="course-list">
+                        <div class="course-item"><span class="course-name">Veterans Park</span><span><span class="course-rating">4.4</span><span class="course-direction">Mid-Cities 20min</span></span></div>
+                        <div class="course-item"><span class="course-name">ZBoaz</span><span><span class="course-rating">4.3</span><span class="course-direction">FW 25min</span></span></div>
+                        <div class="course-item"><span class="course-name">Greenbelt</span><span><span class="course-rating">4.2</span><span class="course-direction">N 40min</span></span></div>
+                        <div class="course-item"><span class="course-name">Turner Park</span><span><span class="course-rating">4.2</span><span class="course-direction">Mid-Cities 15min</span></span></div>
+                        <div class="course-item"><span class="course-name">Bicentennial</span><span><span class="course-rating">4.1</span><span class="course-direction">FW 30min</span></span></div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <h3>Directional Routing Strategy</h3>
+                    <ul>
+                        <li><strong>Day 1 (Mid-Cities):</strong> Turner Park (15 min from DFW) + Veterans Park = 2 rounds</li>
+                        <li><strong>Day 2 (FW West):</strong> ZBoaz + Bicentennial + Gateway + Arcadia = 4 rounds</li>
+                        <li><strong>Day 3 (Dallas E):</strong> Greenbelt + JB Dillinger + Harry Myers + Rockwall = 4 rounds</li>
+                        <li><strong>Day 4 (Final):</strong> Fritz + Veterans replay + Turner replay + Lake Lewisville = 4 rounds</li>
+                    </ul>
+                </div>
+                <div class="score-bar">
+                    <div class="score-bg"><div class="score-fill" style="width: 87%"></div></div>
+                    <span class="score-value">87/100</span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <span class="match-score">Match: 87%</span>
+                <a href="itenerary12.html" class="itinerary-link">View Itinerary &rarr;</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="visited-section">
+        <h3>Previously Visited</h3>
+        <div class="visited-cities">
+            <span class="visited-city">Phoenix, AZ</span>
+            <span class="visited-city">Minneapolis, MN</span>
+            <span class="visited-city">Milwaukee, WI</span>
+            <span class="visited-city">Allentown, PA</span>
+            <span class="visited-city">Pittsburgh, PA</span>
+            <span class="visited-city">Nashville, TN</span>
+            <span class="visited-city">Orlando, FL</span>
+            <span class="visited-city">San Antonio, TX</span>
+            <span class="visited-city">Charlotte, NC</span>
+        </div>
+    </div>
+
+    <script>
+        function filterCards(region) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.card').forEach(card => {
+                if (region === 'all' || card.dataset.region === region) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
